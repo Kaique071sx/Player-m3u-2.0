@@ -1,120 +1,92 @@
-# Meu Netflix Local 📺
+Player M3U 2.0 - Guia de Instalação para Termux 📱
+Este é um guia completo para baixar, instalar e executar o projeto "Player M3U 2.0" a partir do GitHub em um ambiente Termux.
 
-Um aplicativo web de streaming pessoal, com uma interface inspirada na Netflix, para rodar localmente em seu dispositivo Android via Termux. Gerencie e assista suas próprias listas de reprodução `.m3u` de forma fácil e elegante.
+⚠️ Correção Importante da Estrutura
+O repositório do GitHub precisa de uma pequena organização para que o Flask funcione. Os passos abaixo já incluem os comandos para criar as pastas templates e static e mover os arquivos para os lugares corretos.
 
-![Screenshot do Player](https://i.imgur.com/E1rO1lb.png)
-*(Você pode substituir o link acima pelo URL de uma screenshot real do seu app)*
+Pré-requisitos
+Antes de começar, você precisa ter o Termux instalado no seu Android.
 
----
+Passo a Passo da Instalação
+Abra o Termux e execute os comandos abaixo, um de cada vez, na ordem em que aparecem.
 
-### 🚀 Sobre o Projeto
+1. Atualizar Pacotes do Termux
 
-Este projeto nasceu da ideia de criar um servidor de streaming leve, portátil e pessoal. Em vez de depender de serviços de terceiros, o **Meu Netflix Local** permite que você seja o dono do seu próprio catálogo.
+Garante que seu ambiente esteja atualizado para evitar erros.
+bash     pkg update && pkg upgrade -y     
 
-O funcionamento é simples e poderoso:
+2. Instalar Dependências Base (Git e Python)
 
--   **📱 Hospedagem Local:** Tudo roda diretamente no seu celular através do **Termux**, sem a necessidade de um servidor externo.
--   **📝 Baseado em Listas:** O coração do sistema são os arquivos de lista de reprodução `.m3u`. Você pode criar ou baixar essas listas da internet.
--   **🎬 Interface Intuitiva:** A aplicação oferece um menu principal para gerenciar suas listas e uma tela de player focada na experiência de assistir, com uma lista de episódios horizontal e interativa.
--   **✨ Fácil Atualização:** Cansou de uma lista ou quer adicionar uma nova? Basta usar a página de upload integrada para enviar um novo arquivo `.m3u`, e seu catálogo é atualizado instantaneamente.
+git é necessário para baixar o projeto do GitHub.
 
----
+python é necessário para executar o aplicativo.
+bash     pkg install git python -y     
 
-### ✨ Principais Funcionalidades
+3. Baixar (Clonar) seu Projeto do GitHub
 
--   **Interface Inspirada na Netflix:** Design escuro, moderno e responsivo para uma experiência de usuário familiar e agradável.
--   **Gerenciamento de Múltiplas Listas:** Organize seus vídeos em diferentes arquivos `.m3u` (ex: "Animes", "Séries", "Filmes") e escolha qual assistir no menu principal.
--   **Upload de Listas via Web:** Adicione novas listas de reprodução diretamente pelo navegador, sem precisar mexer em arquivos pelo terminal.
--   **Player de Vídeo Integrado:** Suporte para streaming de `.m3u8` com HLS.js, garantindo compatibilidade e performance.
--   **Atualização Dinâmica:** O título do episódio é exibido e a lista de episódios destaca o que está ativo no momento.
--   **Leve e Portátil:** Construído com Flask (Python), é extremamente leve e ideal para o ambiente limitado do Termux.
+Este comando vai baixar todos os arquivos do seu repositório para uma nova pasta chamada Player-m3u-2.0.
+bash     git clone https://github.com/Kaique071sx/Player-m3u-2.0.git     
 
----
+4. Entrar na Pasta do Projeto
 
-### 🛠️ Tecnologias Utilizadas
+Todos os próximos comandos devem ser executados de dentro desta pasta.
+bash     cd Player-m3u-2.0     
 
--   **Backend:** Python 3, Flask
--   **Frontend:** HTML5, CSS3, JavaScript
--   **Streaming:** HLS.js
--   **Ambiente de Execução:** Termux (Android)
+5. Corrigir a Estrutura de Pastas
 
----
-
-### ⚙️ Instalação e Execução
-
-Siga os passos abaixo em ordem para configurar e rodar o projeto no seu Termux.
-
-**1. Preparar o Ambiente Termux**
-
-Primeiro, atualize os pacotes do Termux e instale as dependências essenciais.
-
+Este é o passo crucial que cria as pastas templates e static e move os arquivos para seus devidos lugares.
 ```bash
-pkg update && pkg upgrade -y
-pkg install python nano -y
+# Cria as pastas necessárias
+mkdir templates
+mkdir static
+
+# Move os arquivos HTML para a pasta 'templates'
+mv index.html player.html upload.html templates/
+
+# Move os arquivos de estilo e script para a pasta 'static'
+mv style.css player.js static/
 ```
+6. Criar o Arquivo de Dependências do Python
 
-**2. Instalar a Biblioteca Flask**
+Seu projeto precisa do Flask para funcionar. Este comando cria o arquivo requirements.txt que lista essa necessidade.
+bash     echo "Flask" > requirements.txt     
 
-Use o `pip`, o gerenciador de pacotes do Python, para instalar o Flask.
+7. Instalar as Dependências do Python
 
-```bash
-pip install Flask
-```
+Este comando lê o arquivo requirements.txt e instala o Flask.
+bash     pip install -r requirements.txt     
 
-**3. Criar os Arquivos do Projeto**
+Como Executar o Aplicativo
+Com tudo instalado e organizado, basta iniciar o servidor Flask:
 
-Crie a estrutura de pastas e todos os arquivos (`app.py`, `style.css`, `player.js`, etc.) conforme os códigos que desenvolvemos.
+Bash
 
-**4. Executar o Servidor**
-
-Com tudo pronto, navegue até a pasta do projeto e inicie o servidor Flask.
-
-```bash
-# Navegue até a pasta do projeto (se não estiver nela)
-cd /path/to/meu-netflix
-
-# Inicie o servidor
 python app.py
-```
+Você verá uma saída no terminal indicando que o servidor está rodando, algo como:
+* Running on http://0.0.0.0:5000
 
-**5. Acessar o Aplicativo**
+Como Acessar
+Abra o navegador no seu celular (Chrome, Firefox, etc.).
 
-Abra o navegador no seu celular e acesse o seguinte endereço:
+Digite o seguinte endereço na barra de URL:
 
-```
 http://localhost:5000
-```
+Seu aplicativo estará funcionando!
 
----
+Resumo Rápido (Todos os Comandos em Ordem)
+Para referência futura, aqui está a sequência completa de comandos para uma instalação do zero:
 
-### ▶️ Como Usar
+Bash
 
-1.  Ao abrir o app pela primeira vez, você verá a tela **"Minhas Listas de Reprodução"**.
-2.  Clique no botão **"Carregar Nova Lista"** para ir à página de upload.
-3.  Selecione um arquivo `.m3u` do seu dispositivo e clique em **"Enviar e Atualizar Lista"**.
-4.  Você será redirecionado para o menu principal, onde sua nova lista aparecerá como um "card".
-5.  Clique no card da lista que deseja assistir.
-6.  Você será levado à tela do player, onde poderá selecionar e assistir aos episódios.
-
----
-
-### 📁 Estrutura de Arquivos
-
-```
-meu-netflix/
-├── app.py              # O servidor Flask (cérebro do app)
-├── README.md           # Este arquivo
-├── static/
-│   ├── style.css       # Folha de estilos principal
-│   ├── player.js       # Lógica do player de vídeo
-│   └── listas/
-│       └── (Suas listas .m3u salvas ficam aqui)
-└── templates/
-    ├── index.html      # O menu principal de seleção de listas
-    ├── player.html     # A tela do player de vídeo
-    └── upload.html     # A página de upload de arquivos
-```
-
----
-Este projeto está licenciado sob a Licença MIT.
+pkg update && pkg upgrade -y
+pkg install git python -y
+git clone https://github.com/Kaique071sx/Player-m3u-2.0.git
+cd Player-m3u-2.0
+mkdir templates
+mkdir static
+mv index.html player.html upload.html templates/
+mv style.css player.js static/
+echo "Flask" > requirements.txt
+pip install -r requirements.txt
+python app.py
 
