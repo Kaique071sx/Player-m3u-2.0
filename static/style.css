@@ -1,0 +1,371 @@
+/* Importa a fonte do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* --- 1. ESTILOS GLOBAIS E RESET --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #141414;
+    color: #fff;
+}
+
+/* --- 2. ESTILOS DA PÁGINA PRINCIPAL (PLAYER) --- */
+
+/* Player de Vídeo com a correção de alinhamento */
+.player-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    position: relative;
+    /* Técnica de Grid para centralização perfeita do spinner */
+    display: grid;
+    place-items: center;
+}
+
+#video-player {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* Garante que o vídeo ocupe a mesma célula do grid que o spinner */
+    grid-area: 1 / 1;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid #444;
+    border-top-color: #E50914;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    /* Garante que o spinner fique na mesma célula do grid e sobre o vídeo */
+    grid-area: 1 / 1; 
+    z-index: 10;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Seção de Informações (Título do Episódio e Botão de Upload) */
+.content-info {
+    padding: 20px;
+    background-color: #181818;
+    border-bottom: 1px solid #222;
+}
+
+#current-episode-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.episode-nav .upload-link {
+    background-color: #E50914;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Lista de Episódios Horizontal */
+.playlist-container {
+    padding: 20px;
+}
+
+.playlist-container h2 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+#playlist {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    gap: 15px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+#playlist::-webkit-scrollbar {
+    height: 8px;
+}
+#playlist::-webkit-scrollbar-track {
+    background: #222;
+    border-radius: 4px;
+}
+#playlist::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+#playlist::-webkit-scrollbar-thumb:hover {
+    background: #E50914;
+}
+
+#playlist li {
+    flex: 0 0 180px;
+    scroll-snap-align: start;
+}
+
+#playlist li.empty-list {
+    flex: 1;
+}
+
+#playlist li a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+#playlist li a:hover {
+    transform: scale(1.05);
+}
+
+#playlist li a.active {
+    outline: 3px solid #E50914;
+    transform: scale(1.05);
+}
+
+.episode-thumbnail {
+    background-color: #000;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    color: #E50914;
+}
+
+.episode-title {
+    padding: 10px;
+    font-size: 0.9em;
+    white-space: normal;
+}
+
+
+/* --- 3. ESTILOS DA PÁGINA DE UPLOAD (ESTILO NETFLIX) --- */
+
+.upload-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: radial-gradient(circle, rgba(20,20,20,1) 0%, rgba(0,0,0,1) 100%);
+}
+
+.upload-container {
+    position: relative;
+    background-color: #141414;
+    padding: 40px 50px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    border: 1px solid #222;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2em;
+    color: #888;
+    text-decoration: none;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.close-button:hover {
+    color: #fff;
+}
+
+.upload-container h1 {
+    font-weight: 700;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.upload-container p {
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+#file-upload {
+    display: none;
+}
+
+.upload-button-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #333;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #555;
+    transition: background-color 0.2s;
+    margin-bottom: 15px;
+}
+.upload-button-label:hover {
+    background-color: #444;
+}
+
+.file-name-display {
+    color: #888;
+    font-style: italic;
+    margin-bottom: 30px;
+    min-height: 20px;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: 700;
+    background-color: #E50914;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.submit-button:hover {
+    background-color: #f6121d;
+}
+
+/* --- 4. ESTILOS DAS MENSAGENS DE FEEDBACK (FLASH) --- */
+
+/* Mensagens na página de UPLOAD */
+.flash-messages {
+    margin-top: 20px;
+}
+.flash-message-item {
+    background-color: rgba(229, 9, 20, 0.2);
+    border: 1px solid #E50914;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Mensagens na página PRINCIPAL (PLAYER) */
+.flash-container {
+    position: fixed; /* Mudei para fixed para não rolar com a página */
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 90%;
+    max-width: 500px; /* Adicionado max-width */
+    text-align: center;
+}
+.flash-message {
+    background-color: #E50914;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* --- ESTILOS PARA A NOVA PÁGINA DE SELEÇÃO DE LISTAS --- */
+
+.home-page {
+    padding: 20px;
+}
+
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.home-header h1 {
+    font-size: 2em;
+}
+
+.upload-button-home {
+    background-color: #E50914;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.list-card {
+    background-color: #181818;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #222;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.list-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.list-card-icon svg {
+    margin-bottom: 15px;
+}
+
+.list-card-title {
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.empty-message {
+    grid-column: 1 / -1; /* Ocupa todas as colunas */
+    text-align: center;
+    font-size: 1.2em;
+    color: #aaa;
+}
+.empty-message a {
+    color: #E50914;
+    text-decoration: none;
+}
+
+/* Link de voltar na página do player */
+.back-to-home-link {
+    color: #aaa;
+    text-decoration: none;
+    margin-right: 20px;
+}
+.back-to-home-link:hover {
+    color: #fff;
+}
+
+/* Mensagens de feedback na home */
+.flash-container-home {
+    margin-bottom: 20px;
+}

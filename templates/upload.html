@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregar Lista - Meu Netflix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="upload-page">
+
+    <div class="upload-container">
+        <a href="{{ url_for('index') }}" class="close-button" title="Voltar ao Player">&times;</a>
+        <h1>Carregar Nova Lista</h1>
+        <p>Envie um arquivo <strong>.m3u</strong> para atualizar seu catálogo de episódios.</p>
+        
+        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            
+            <input type="file" name="file" id="file-upload" accept=".m3u" required>
+
+            <label for="file-upload" class="upload-button-label">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                <span>Selecionar Arquivo</span>
+            </label>
+            
+            <div class="file-name-display" id="file-name-display">Nenhum arquivo selecionado</div>
+
+            <button type="submit" class="submit-button">Enviar e Atualizar Lista</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                {% for message in messages %}
+                    <div class="flash-message-item">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+    </div>
+
+    <script>
+        // Encontra o input de arquivo escondido pelo seu ID.
+        const fileInput = document.getElementById('file-upload');
+        
+        // Encontra o elemento de texto onde o nome do arquivo será exibido.
+        const fileNameDisplay = document.getElementById('file-name-display');
+
+        // Fica "escutando" por qualquer mudança no input de arquivo.
+        fileInput.addEventListener('change', function(event) {
+            // Quando um arquivo é selecionado, 'event.target.files' contém a lista de arquivos.
+            // Pegamos o primeiro (e único) arquivo.
+            const file = event.target.files[0];
+            
+            if (file) {
+                // Se um arquivo existe, atualizamos o texto para o nome do arquivo.
+                fileNameDisplay.textContent = file.name;
+                fileNameDisplay.style.color = '#ffffff'; // Deixa o texto branco.
+            } else {
+                // Se nenhum arquivo for selecionado (o usuário cancelou), volta ao texto padrão.
+                fileNameDisplay.textContent = 'Nenhum arquivo selecionado';
+                fileNameDisplay.style.color = '#888888'; // Deixa o texto cinza.
+            }
+        });
+    </script>
+
+</body>
+</html>

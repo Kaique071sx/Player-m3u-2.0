@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Listas - Meu Netflix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home-page">
+
+    <div class="home-container">
+        <header class="home-header">
+            <h1>Minhas Listas de Reprodução</h1>
+            <a href="{{ url_for('upload_file') }}" class="upload-button-home">Carregar Nova Lista</a>
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-container-home">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <main class="list-grid">
+            {% if available_lists %}
+                {% for list_name in available_lists %}
+                <a href="{{ url_for('player', list_name=list_name) }}" class="list-card">
+                    <div class="list-card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 0 24 24" width="48px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg>
+                    </div>
+                    <div class="list-card-title">{{ list_name }}</div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <p class="empty-message">Nenhuma lista encontrada. <a href="{{ url_for('upload_file') }}">Carregue uma</a> para começar.</p>
+            {% endif %}
+        </main>
+    </div>
+
+</body>
+</html>

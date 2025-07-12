@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ list_title }} - Meu Netflix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="player-container">
+        <video id="video-player" controls poster=""></video>
+        <div id="loading-spinner" class="spinner" style="display: none;"></div>
+    </main>
+
+    <section class="content-info">
+        <h1 id="current-episode-title">{{ list_title }}</h1>
+        <div class="episode-nav">
+             <a href="{{ url_for('index') }}" class="back-to-home-link">← Voltar para Listas</a>
+             <a href="{{ url_for('upload_file') }}" class="upload-link" title="Carregar nova lista">Carregar Lista</a>
+        </div>
+    </section>
+
+    <aside class="playlist-container">
+        <h2>Episódios da Lista</h2>
+        <ul id="playlist">
+            {% if episodes %}
+                {% for episode in episodes %}
+                <li>
+                    <a href="#" data-src="{{ episode.url }}">
+                        <div class="episode-thumbnail">
+                            <span>▶</span>
+                        </div>
+                        <div class="episode-title">{{ episode.title }}</div>
+                    </a>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li class="empty-list"><p>Nenhum episódio encontrado nesta lista.</p></li>
+            {% endif %}
+        </ul>
+    </aside>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="{{ url_for('static', filename='player.js') }}" defer></script>
+</body>
+</html>
