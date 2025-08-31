@@ -5,8 +5,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'sua-chave-secreta-pode-ser-qualquer-coisa'
 
-# Define o caminho para a pasta que armazenará as listas .m3u
-# No Vercel, o sistema de arquivos é temporário, então usamos /tmp
+# CORREÇÃO CRÍTICA: Usar a pasta /tmp que é o único local com permissão de escrita
 LISTAS_FOLDER = '/tmp/listas'
 ALLOWED_EXTENSIONS = {'m3u'}
 
@@ -75,4 +74,6 @@ def upload_file():
             
     return render_template('upload.html')
 
-# O bloco if __name__ == '__main__': foi removido.
+# NÃO inclua o bloco if __name__ == '__main__' abaixo
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5000, debug=True)
