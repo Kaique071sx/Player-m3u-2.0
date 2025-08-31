@@ -6,7 +6,8 @@ app = Flask(__name__)
 app.secret_key = 'sua-chave-secreta-pode-ser-qualquer-coisa'
 
 # Define o caminho para a pasta que armazenará as listas .m3u
-LISTAS_FOLDER = os.path.join(app.static_folder, 'listas')
+# No Vercel, o sistema de arquivos é temporário, então usamos /tmp
+LISTAS_FOLDER = '/tmp/listas'
 ALLOWED_EXTENSIONS = {'m3u'}
 
 # Garante que a pasta de listas exista ao iniciar
@@ -30,13 +31,11 @@ def parse_m3u(filepath):
 @app.route('/')
 def index():
     """Página principal que agora mostra a lista de arquivos .m3u disponíveis."""
-    # Lista todos os arquivos na pasta de listas
     try:
         files = [f for f in os.listdir(LISTAS_FOLDER) if f.endswith('.m3u')]
     except FileNotFoundError:
         files = []
     
-    # Remove a extensão .m3u para mostrar nomes mais limpos
     available_lists = [os.path.splitext(f)[0] for f in files]
     
     return render_template('index.html', available_lists=available_lists)
@@ -44,7 +43,6 @@ def index():
 @app.route('/player/<list_name>')
 def player(list_name):
     """Página do player que carrega uma lista específica."""
-    # Adiciona a extensão .m3u de volta ao nome do arquivo
     m3u_filename = f"{list_name}.m3u"
     m3u_path = os.path.join(LISTAS_FOLDER, m3u_filename)
     
@@ -67,16 +65,14 @@ def upload_file():
             return redirect(request.url)
         
         if file and allowed_file(file.filename):
-            # Mantém o nome original do arquivo
             filename = file.filename
-            # Salva o arquivo na pasta de listas
             file.save(os.path.join(LISTAS_FOLDER, filename))
             flash(f'Lista "{filename}" carregada com sucesso!')
-            # Redireciona para a página principal para ver a nova lista
             return redirect(url_for('index'))
         else:
             flash('Tipo de arquivo não permitido! Por favor, envie um arquivo .m3u')
             return redirect(request.url)
             
-    # Se for um GET, apenas mostra a página de upload
     return render_template('upload.html')
+
+# O bloco if __name__ == '__main__': foi removido.
